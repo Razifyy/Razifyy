@@ -1,0 +1,171 @@
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextLabel = Instance.new("TextLabel")
+local infinitejump = Instance.new("TextButton")
+local crashserver = Instance.new("TextButton")
+local BoltsHub = Instance.new("TextButton")
+local GodMode = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+
+Frame.Parent = main
+Frame.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+Frame.Position = UDim2.new(0.0426309556, 0, 0.51313138, 0)
+Frame.Size = UDim2.new(0, 298, 0, 231)
+ScreenGui.Active = true
+ScreenGui.Draggable = true
+
+TextLabel.Parent = Frame
+TextLabel.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.Size = UDim2.new(0, 298, 0, 50)
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Text = "Arsenal Gui v3 | Made by Razifyy#0666"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 14.000
+TextLabel.TextWrapped = true
+
+infinitejump.Name = "infinite jump"
+infinitejump.Parent = Frame
+infinitejump.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+infinitejump.Position = UDim2.new(0.530201375, 0, 0.281385303, 0)
+infinitejump.Size = UDim2.new(0, 126, 0, 42)
+infinitejump.Font = Enum.Font.SourceSansBold
+infinitejump.Text = "infinite jump"
+infinitejump.TextColor3 = Color3.fromRGB(255, 255, 255)
+infinitejump.TextSize = 14.000
+infinitejump.MouseButton1Down:connect(function()
+	if InfiniteJumpEnabled then
+			game:GetService"Players".LocalPlayer.Character:FindFirstChildOfClass'Humanoid':ChangeState("Jumping")
+		end
+	end)
+	local InfiniteJump = CreateButton("Infinite Jump: Off", StuffFrame)
+	InfiniteJump.Position = UDim2.new(0,10,0,130)
+	InfiniteJump.Size = UDim2.new(0,150,0,30)
+	InfiniteJump.MouseButton1Click:connect(function()
+		local state = InfiniteJump.Text:sub(string.len("Infinite Jump: ") + 1) --too lazy to count lol
+		local new = state == "Off" and "On" or state == "On" and "Off"
+		InfiniteJumpEnabled = new == "On"
+		InfiniteJump.Text = "Infinite Jump: " .. new
+end)
+
+
+crashserver.Name = "crash server"
+crashserver.Parent = Frame
+crashserver.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+crashserver.Position = UDim2.new(0.0402684808, 0, 0.68398273, 0)
+crashserver.Size = UDim2.new(0, 126, 0, 42)
+crashserver.Font = Enum.Font.SourceSansBold
+crashserver.Text = "Crash/lag Server"
+crashserver.TextColor3 = Color3.fromRGB(255, 255, 255)
+crashserver.TextSize = 14.000
+crashserver.MouseButton1Down:connect(function()
+	if _G.lag then
+		return
+	end
+	_G.lag=true
+	game.RunService.RenderStepped:Connect(function()
+		for _=1,5 do
+			game.ReplicatedStorage.Events.Trail:FireServer(
+				CFrame.new(math.random(),math.random(),math.random()),
+				Vector3.new(0,1,0),
+				{
+
+				},
+				Color3.new(1,1,1),
+				"Railgun",
+				game.Players.LocalPlayer.Character.HumanoidRootPart
+			)
+		end
+	end)
+end)
+
+BoltsHub.Name = "Bolts Hub"
+BoltsHub.Parent = Frame
+BoltsHub.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+BoltsHub.Position = UDim2.new(0.533557057, 0, 0.68398273, 0)
+BoltsHub.Size = UDim2.new(0, 126, 0, 42)
+BoltsHub.Font = Enum.Font.SourceSansSemibold
+BoltsHub.Text = "Bolts Hub v5.1"
+BoltsHub.TextColor3 = Color3.fromRGB(255, 255, 255)
+BoltsHub.TextSize = 14.000
+BoltsHub.MouseButton1Down:connect(function()
+	loadstring(game:HttpGet(("https://raw.githubusercontent.com/fusiongreg/SlientAimGUIByBolts/main/SlientAimGUIByBolts"),true))()
+end)
+
+GodMode.Name = "God Mode"
+GodMode.Parent = Frame
+GodMode.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+GodMode.Position = UDim2.new(0.0402684808, 0, 0.281385303, 0)
+GodMode.Size = UDim2.new(0, 126, 0, 42)
+GodMode.Font = Enum.Font.SourceSansSemibold
+GodMode.Text = "God Mode"
+GodMode.TextColor3 = Color3.fromRGB(255, 255, 255)
+GodMode.TextSize = 14.000
+GodMode.MouseButton1Down:connect(function()
+	pcall(function()game.Players.LocalPlayer.Character.Spawned:Destroy()end)
+	game.Players.LocalPlayer.Character.ChildAdded:Connect(function(x)
+		if x.Name=="Spawned"then
+			wait(.3)
+			x:Destroy()
+		end
+	end)
+	game.RunService.RenderStepped:Connect(function()
+		if game.Players.LocalPlayer.Character then
+			if game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")then
+				if game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Engulfed")then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Engulfed:Destroy()
+				elseif game.Players.LocalPlayer.Character.HumanoidRootPart:FindFirstChild("Bleed")then
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Bleed:Destroy()
+				end
+			end
+		end
+	end)
+	coroutine.wrap(function()
+		while wait(.1)do--so that people dont get burn damage
+			pcall(function()
+				if game.Players.LocalPlayer.Status.Team.Value~="Spectator"and not(game.ReplicatedStorage.wkspc.Status.RoundOver.Value or game.ReplicatedStorage.wkspc.Status.Preparation.Value)then
+					for _,v in pairs(game.Players:GetChildren())do
+						if v~=game.Players.LocalPlayer then
+							if v.Team~=game.Players.LocalPlayer.Team or game.ReplicatedStorage.wkspc.FFA.Value then
+								if v.Character then
+									if v.Character:FindFirstChild("IsAPlayer")and not v.Character:FindFirstChild("ShuckyHAX")and v.Character:FindFirstChild("Spawned")and v.Character.HumanoidRootPart:FindFirstChild("Engulfed")then
+										game:GetService("ReplicatedStorage").Events.Burn:FireServer(
+										{
+											["Parent"]=v.Character,
+											["CFrame"]=game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+										},
+										game:GetService("ReplicatedStorage").Weapons.AWP,
+										0
+										)
+									end
+								end
+							end
+						end
+					end
+				end
+			end)
+		end
+	end)()
+	local mt=getrawmetatable(game)
+	local oldNamecall=mt.__namecall
+	local oldIndex=mt.__index
+	local oldnewIndex=mt.__newindex
+	setreadonly(mt,false)
+	mt.__namecall=newcclosure(function(a,b,...)
+		local method=getnamecallmethod()
+		if tostring(method)=="FireServer"and tostring(a)=="HitPart"then
+			--uses flames to deal damage
+			game:GetService("ReplicatedStorage").Events.Burn:FireServer(
+			{
+				["Parent"]=b.Parent,
+				["CFrame"]=game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame+Vector3.new(math.random(),math.random(),math.random())
+			},
+			game.Players.LocalPlayer.PlayerGui.GUI.Client.Variables.gun.Value,
+			1
+			)
+		end
+		return oldNamecall(a,b,...)
+	end)
+end)
